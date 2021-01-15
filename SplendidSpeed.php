@@ -50,8 +50,8 @@ class SplendidSpeed
 		 */
 		add_action('admin_enqueue_scripts', function($hook) {
 		   if($hook === 'settings_page_splendid-speed') {
-			   wp_enqueue_style('splendid-speed', SPLENDID_SPEED_DIR_URL . 'assets/css/admin.css', [], '1.2.2');
-			   wp_enqueue_script('splendid-speed-admin-page', SPLENDID_SPEED_DIR_URL . 'assets/js/admin.js', [], '1.2.2', true);
+			   wp_enqueue_style('splendid-speed', SPLENDID_SPEED_DIR_URL . 'assets/css/admin.css', [], '1.2.3');
+			   wp_enqueue_script('splendid-speed-admin-page', SPLENDID_SPEED_DIR_URL . 'assets/js/admin.js', [], '1.2.3', true);
 		   }
 		});
 
