@@ -6,7 +6,7 @@
  * Description: Splendid Speed improves your website performance and Google Pagespeed score with converting images to WebP, preloading pages, using Gzip and more.
  * Author: Splendid Press
  * Author URI: https://splendidpress.com
- * Version: 1.2.2
+ * Version: 1.2.3
  * Text Domain: splendid-speed
  * Domain Path: /languages
  */

@@ -92,30 +92,8 @@ class SplendidInlineCss extends SplendidSpeed
 				// If cache file does not exist, get data and 
 				// create a cache file with the data.
 				if(!$cache) {
-					foreach($wp_styles->registered as $wp_style) {
-						if(in_array($wp_style->handle, $wp_styles->queue)) {
-							$deps = $wp_style->deps;
-							$src = $wp_style->handle;
-
-							// Get each dependency.
-							foreach($deps as $dep) {
-								// Do not get new dependency if we already have it.
-								if(!preg_match('/splendid-speed:' . $dep .'/', $cache)) {
-									$css = $this->fetch($dep);
-
-									if(!empty($css)) {
-										$cache = $cache . "\n" . '/* splendid-speed:' . $dep . ' */' . "\n" . $css;
-									}
-								}
-							}
-
-							$css = $this->fetch($src);
-
-							if(!empty($css)) {
-								$cache = $cache . "\n" . '/* splendid-speed:' . $src .' */' . "\n" . $css;
-							}
-						}
-					}
+					// Compose cache
+					$cache = $this->composeCache($wp_styles);
 
 					// Create cache.
 					file_put_contents($this->cache_dir . '/css.cache', $cache);
@@ -139,6 +117,63 @@ class SplendidInlineCss extends SplendidSpeed
 				}
 			}, 99999);
 		}
+	}
+
+	/**
+	 * Composes the information we need for the cache, such as 
+	 * CSS file contents and all CSS @import's, separately. 
+	 * 
+	 * We need them separately because CSS @import's will be ignored
+	 * if they do not precede all other CSS rules.
+	 * 
+	 * @param $styles
+	 * @return array
+	 * 
+	 * @since 1.2.3
+	 */
+	public function composeCache($styles) {
+		$cache = '';
+		$imports = [];
+
+		foreach($styles->registered as $style) {
+			if(in_array($style->handle, $styles->queue)) {
+				$deps = $style->deps;
+				$src = $style->handle;
+
+				// Get each dependency.
+				foreach($deps as $dep) {
+					// Do not get new dependency if we already have it.
+					if(!preg_match('/splendid-speed:' . $dep .'/', $cache)) {
+						$fetchResult = $this->fetch($dep);
+
+						// Set imports
+						if(!empty($fetchResult['imports'])) {
+							$imports = $imports + $fetchResult['imports'];
+						}
+
+						// Set cache
+						if(!empty($fetchResult['css'])) {
+							$cache = $cache . "\n" . '/* splendid-speed:' . $dep . ' */' . "\n" . $fetchResult['css'];
+						}
+					}
+				}
+
+				// Get style itself
+				$fetchResult = $this->fetch($src);
+
+				// Set imports
+				if(!empty($fetchResult['imports'])) {
+					$imports = $imports + $fetchResult['imports'];
+				}
+
+				// Set cache
+				if(!empty($fetchResult['css'])) {
+					$cache = $cache . "\n" . '/* splendid-speed:' . $src .' */' . "\n" . $fetchResult['css'];
+				}
+			}
+		}
+
+		return join(' ', $imports) . $cache;
 	}
 
 	/**
@@ -194,10 +229,20 @@ class SplendidInlineCss extends SplendidSpeed
 			$contents = preg_replace('/url\(\'(?!http|\/\/|data:)/', "url('" . substr($src, 0, strrpos($src, '/')) . '/', $contents);
 			$contents = preg_replace('/url\(\"(?!http|\/\/|data:)/', 'url("' . substr($src, 0, strrpos($src, '/')) . '/', $contents);
 
+			// Find all @imports
+			preg_match_all('/@import.*;/', $contents, $matches);
+			
+			// Remove all @imports
+			$contents = preg_replace('/@import.*;/', '', $contents);
+
 			$minifier = new Minify\CSS();
 			$minifier->add($contents);
 			$wp_styles->dequeue($name);
-			return $minifier->minify();;
+
+			return [
+				'css' => $minifier->minify(),
+				'imports' => !empty($matches[0]) ? $matches[0] : []
+			];
 		} catch(Exception $e) {
 			return false;
 		}
