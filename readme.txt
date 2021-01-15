@@ -95,6 +95,9 @@ This may happen if you are running multiple performance plugins at the same time
 
 == Changelog ==
 
+= 1.2.3 =
+* Fixes an issue in Inline CSS where @import's weren't added to the top, and browsers require all @import's to precede any other CSS rules, so this broke things like imported google fonts or resets and any other stuff like that. 
+
 = 1.2.2 =
 * Fixes an issue in Inline CSS where the stylesheets were sometimes fetched in wrong order, resulting in a broken website.
 
