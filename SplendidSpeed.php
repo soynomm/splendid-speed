@@ -7,7 +7,7 @@ class SplendidSpeed
 	 * 
 	 * @since 1.0
 	 */
-	public function init() {
+	public function init(): void {
 		add_action('plugins_loaded', [$this, 'register_services']);
 	}
 
@@ -16,7 +16,7 @@ class SplendidSpeed
 	 * 
 	 * @since 1.0
 	 */
-	public function register_services() {
+	public function register_services(): void {
 		/**
 		 * Update settings on POST.
 		 * 
@@ -103,7 +103,7 @@ class SplendidSpeed
 	 * 
 	 * @since 1.0
 	 */
-	public function post($key) {
+	public function post(string $key) {
 		if(!empty($_POST[$key])) {
 			return $_POST[$key];
 		}
@@ -119,7 +119,7 @@ class SplendidSpeed
 	 *
 	 * @since 1.0
 	 */
-	public function get($key) {
+	public function get(string $key) {
 		if(!empty($_GET[$key])) {
 			return sanitize_key($_GET[$key]);
 		}
@@ -134,7 +134,7 @@ class SplendidSpeed
 	 *
 	 * @since 1.0
 	 */
-	public function settings() {
+	public function settings(): array {
 		return get_option('splendid_speed_settings', []);
 	}
 
@@ -146,7 +146,7 @@ class SplendidSpeed
 	 *
 	 * @since 1.0
 	 */
-	public function setting($key) {
+	public function setting(string $key) {
 		$settings = $this->settings();
 
 		if(isset($settings[$key])) {
@@ -159,11 +159,9 @@ class SplendidSpeed
 	/**
 	 * Updates the settings by given key => value collection.
 	 *
-	 * @param $arr
-	 *
 	 * @since 1.0
 	 */
-	public function update_settings() {
+	public function update_settings(): void {
 		$settings = $this->post('splendid');
 
 		foreach(glob(SPLENDID_SPEED_DIR . '/modules/*.php') as $module) {
@@ -188,7 +186,7 @@ class SplendidSpeed
 	 *
 	 * @since 1.0
 	 */
-	public function erase() {
+	public function erase(): void {
 		foreach(glob(SPLENDID_SPEED_DIR . '/modules/*.php') as $module) {
 			$className = str_replace('.php', '', basename($module));
 			$classInstance = new $className();
@@ -206,7 +204,7 @@ class SplendidSpeed
 	 * 
 	 * @since 1.0
 	 */
-	public function plugins_page_link($links) {
+	public function plugins_page_link(array $links): array {
 		$url = get_admin_url() . "options-general.php?page=splendid-speed";
 		$settings_link = '<a href="' . $url . '">' . __('Settings', 'splendid-speed') . '</a>';
 		array_unshift($links, $settings_link);

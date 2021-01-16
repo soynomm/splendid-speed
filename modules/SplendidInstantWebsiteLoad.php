@@ -32,7 +32,7 @@ class SplendidInstantWebsiteLoad extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function activate() {
+	public function activate(): void {
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		update_option('splendid_speed_settings', $settings);
@@ -43,7 +43,7 @@ class SplendidInstantWebsiteLoad extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function disable() {
+	public function disable(): void {
 		$settings = $this->settings();
 		unset($settings[$this->key]);
 		update_option('splendid_speed_settings', $settings);
@@ -54,7 +54,7 @@ class SplendidInstantWebsiteLoad extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function register() {
+	public function register(): void {
 		if (!is_admin() && $this->setting($this->key)) {
 			add_action('wp_enqueue_scripts', function() {
 				wp_enqueue_script('splendid-speed-instant-page', SPLENDID_SPEED_DIR_URL . 'assets/js/instant.page.js', [], '5.1.0', true);

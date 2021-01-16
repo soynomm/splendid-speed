@@ -31,7 +31,7 @@ class SplendidCleanTransients extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function activate() {
+	public function activate(): void {
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		$this->clean();
@@ -44,7 +44,7 @@ class SplendidCleanTransients extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function disable() {
+	public function disable(): void {
 		$settings = $this->settings();
 		unset($settings[$this->key]);
 		wp_clear_scheduled_hook('splendid_speed_weekly_clean_transients');
@@ -56,7 +56,7 @@ class SplendidCleanTransients extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function register() {
+	public function register(): void {
 		if($this->setting($this->key)) {
 			add_action('splendid_speed_weekly_clean_transients', [$this, 'clean']);
 		}
@@ -67,7 +67,7 @@ class SplendidCleanTransients extends SplendidSpeed
 	 *
 	 * @since  1.0
 	 */
-	public function clean() {
+	public function clean(): void {
 		global $wpdb;
 
 		$sql = "DELETE FROM " .  $wpdb->prefix . "options WHERE option_name LIKE ('_transient_%')";

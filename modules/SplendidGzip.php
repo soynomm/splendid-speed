@@ -31,7 +31,7 @@ class SplendidGzip extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function activate() {
+	public function activate(): void {
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		$this->zip();
@@ -43,7 +43,7 @@ class SplendidGzip extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function disable() {
+	public function disable(): void {
 		$settings = $this->settings();
 		unset($settings[$this->key]);
 		$this->unzip();
@@ -55,7 +55,7 @@ class SplendidGzip extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function register() {
+	public function register(): void {
 		// Silence is golden.
 	}
 
@@ -67,7 +67,7 @@ class SplendidGzip extends SplendidSpeed
 	 *
 	 * @since 1.0
 	 */
-	private function zip() {
+	private function zip(): bool {
 		$lines = [
 			'<IfModule mod_deflate.c>',
 			'AddOutputFilterByType DEFLATE image/svg+xml',
@@ -104,7 +104,7 @@ class SplendidGzip extends SplendidSpeed
 	 *
 	 * @since 1.0
 	 */
-	private function unzip() {
+	private function unzip(): bool {
 		return insert_with_markers(get_home_path() . '.htaccess', 'Splendid Speed GZIP', []);
 	}
 }

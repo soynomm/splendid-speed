@@ -48,7 +48,7 @@ class SplendidInlineCss extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function activate() {
+	public function activate(): void {
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		update_option('splendid_speed_settings', $settings);
@@ -59,7 +59,7 @@ class SplendidInlineCss extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function disable() {
+	public function disable(): void {
 		$settings = $this->settings();
 		unset($settings[$this->key]);
 
@@ -74,7 +74,7 @@ class SplendidInlineCss extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function register() {
+	public function register(): void {
 		if($this->setting($this->key)) {
 			// If not admin.
 			if(!is_admin()) {
@@ -135,7 +135,7 @@ class SplendidInlineCss extends SplendidSpeed
 	 * 
 	 * @since 1.2.4
 	 */
-	public function onUpgrade($upgraderObj, $options) {
+	public function onUpgrade($upgraderObj, $options): void {
 		$this->deleteCache();
 	}
 
@@ -163,7 +163,7 @@ class SplendidInlineCss extends SplendidSpeed
 	 * 
 	 * @since 1.2.4
 	 */
-	public function putCache($cache) {
+	public function putCache(string $cache): void {
 		if(file_exists($this->cache_dir)) {
 			file_put_contents($this->cache_dir . '/css.cache', $cache);
 		}
@@ -176,7 +176,7 @@ class SplendidInlineCss extends SplendidSpeed
 	 * 
 	 * @since 1.2.4
 	 */
-	public function deleteCache() {
+	public function deleteCache(): void {
 		if(file_exists($this->cache_dir . '/css.cache')) {
 			unlink($this->cache_dir . '/css.cache');
 		}
@@ -190,11 +190,11 @@ class SplendidInlineCss extends SplendidSpeed
 	 * if they do not precede all other CSS rules.
 	 * 
 	 * @param $styles
-	 * @return array
+	 * @return string
 	 * 
 	 * @since 1.2.3
 	 */
-	public function composeCache($styles) {
+	public function composeCache($styles): string {
 		$cache = '';
 		$imports = [];
 
@@ -247,7 +247,7 @@ class SplendidInlineCss extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function fetch($name) {
+	public function fetch(string $name) {
 		global $wp_styles;
 
 		$src = $wp_styles->registered[$name]->src;
