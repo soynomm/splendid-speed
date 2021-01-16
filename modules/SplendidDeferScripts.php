@@ -83,7 +83,7 @@ class SplendidDeferScripts extends SplendidSpeed
 
 				// If we reached this point, defer it.
 				return str_replace(' src', ' defer src', $script);
-			}, 10);
+			}, 99999);
 		}
 	}
 }
