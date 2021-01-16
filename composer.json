@@ -1,6 +1,5 @@
 {
     "require": {
-        "appsero/client": "^1.2",
         "matthiasmullie/minify": "^1.3"
     }
 }
