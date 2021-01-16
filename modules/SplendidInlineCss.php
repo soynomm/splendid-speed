@@ -64,9 +64,7 @@ class SplendidInlineCss extends SplendidSpeed
 		unset($settings[$this->key]);
 
 	 	// If cache file exists, delete it.	
-		if(file_exists($this->cache_dir . '/css.cache')) {
-			unlink($this->cache_dir . '/css.cache');
-		}
+		$this->deleteCache();
 
 		update_option('splendid_speed_settings', $settings);
 	}
@@ -77,45 +75,110 @@ class SplendidInlineCss extends SplendidSpeed
 	 * @since 1.2
 	 */
 	public function register() {
-		if($this->setting($this->key) && !is_admin()) {
-			add_action('wp_print_styles', function() {
-				global $wp_styles;
+		if($this->setting($this->key)) {
+			// If not admin.
+			if(!is_admin()) {
+				// Create inline styles
+				add_action('wp_print_styles', function() {
+					global $wp_styles;
 
-				// If cache dir does not exist, create it.
-				if(!file_exists($this->cache_dir)) {
-					wp_mkdir_p($this->cache_dir);
-				}
-
-				// Get cache file.
-				$cache = @file_get_contents($this->cache_dir . '/css.cache');
-
-				// If cache file does not exist, get data and 
-				// create a cache file with the data.
-				if(!$cache) {
-					// Compose cache
-					$cache = $this->composeCache($wp_styles);
-
-					// Create cache.
-					file_put_contents($this->cache_dir . '/css.cache', $cache);
-				}
-
-				// Add inline CSS to head.
-				if($cache) {
-					foreach($wp_styles->queue as $style) {
-						// check if we have this in cache, if yes, dequeue.
-						// If we don't, we want it still queued because
-						// some themes load CSS only on certain pages conditionally
-						// and otherwise we would break that.
-						if(preg_match('/splendid-speed:' . $style .'/', $cache)) {
-							$wp_styles->dequeue($style);
-						}
+					// If cache dir does not exist, create it.
+					if(!file_exists($this->cache_dir)) {
+						wp_mkdir_p($this->cache_dir);
 					}
 
-					add_action('wp_head', function() use($cache) {
-						echo '<style id="splendid-speed-inline-css">' . $cache . '</style>';
-					});
-				}
-			}, 99999);
+					// Get cache file.
+					$cache = $this->getCache();
+
+					// If cache file does not exist, get data and 
+					// create a cache file with the data.
+					if(!$cache) {
+						// Compose cache
+						$cache = $this->composeCache($wp_styles);
+
+						// Create cache.
+						$this->putCache($cache);
+					}
+
+					// Add inline CSS to head.
+					if($cache) {
+						foreach($wp_styles->queue as $style) {
+							// check if we have this in cache, if yes, dequeue.
+							// If we don't, we want it still queued because
+							// some themes load CSS only on certain pages conditionally
+							// and otherwise we would break that.
+							if(preg_match('/splendid-speed:' . $style .'/', $cache)) {
+								$wp_styles->dequeue($style);
+							}
+						}
+
+						add_action('wp_head', function() use($cache) {
+							echo '<style id="splendid-speed-inline-css">' . $cache . '</style>';
+						});
+					}
+				}, 99999);
+			}
+
+			// Add hook to run when plugin is being updated.
+			add_action('upgrader_process_complete', [$this, 'onUpgrade'], 10, 2);
+		}
+	}
+
+	/**
+	 * Runs when the plugin is being upgraded.
+	 * 
+	 * Will delete the cache for Inline CSS.
+	 * 
+	 * @param $upgradeObj
+	 * @param $options
+	 * @return void
+	 * 
+	 * @since 1.2.4
+	 */
+	public function onUpgrade($upgraderObj, $options) {
+		$this->deleteCache();
+	}
+
+	/**
+	 * Retrieves the cache, if it exists.
+	 * 
+	 * @return string|bool
+	 * 
+	 * @since 1.2.4
+	 */
+	public function getCache() {
+		if(file_exists($this->cache_dir . '/css.cache')) {
+			return file_get_contents($this->cache_dir . '/css.cache');
+		}
+
+		return false;
+	}
+
+	/**
+	 * Creates a cache file or updates it when
+	 * it already exists.
+	 * 
+	 * @param $cache
+	 * @return void
+	 * 
+	 * @since 1.2.4
+	 */
+	public function putCache($cache) {
+		if(file_exists($this->cache_dir)) {
+			file_put_contents($this->cache_dir . '/css.cache', $cache);
+		}
+	}
+
+	/**
+	 * If the cache file exists, deletes it.
+	 * 
+	 * @return void
+	 * 
+	 * @since 1.2.4
+	 */
+	public function deleteCache() {
+		if(file_exists($this->cache_dir . '/css.cache')) {
+			unlink($this->cache_dir . '/css.cache');
 		}
 	}
 
@@ -177,7 +240,7 @@ class SplendidInlineCss extends SplendidSpeed
 	}
 
 	/**
-	 * Fetches the CSS for a given reigstered style.
+	 * Fetches the CSS for a given registered style.
 	 *
 	 * @param $name
 	 * @return string|bool
