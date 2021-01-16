@@ -31,7 +31,7 @@ class SplendidCleanAutoDrafts extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function activate() {
+	public function activate(): void {
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		$this->clean();
@@ -44,7 +44,7 @@ class SplendidCleanAutoDrafts extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function disable() {
+	public function disable(): void {
 		$settings = $this->settings();
 		unset($settings[$this->key]);
 		wp_clear_scheduled_hook('splendid_speed_weekly_clean_auto_drafts');
@@ -56,7 +56,7 @@ class SplendidCleanAutoDrafts extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function register() {
+	public function register(): void {
 		if($this->setting($this->key)) {
 			add_action('splendid_speed_weekly_clean_auto_drafts', [$this, 'clean']);
 		}
@@ -67,8 +67,9 @@ class SplendidCleanAutoDrafts extends SplendidSpeed
 	 *
 	 * @since 1.1
 	 */
-	public function clean() {
+	public function clean(): void {
 		global $wpdb;
+		
 		$sql = "DELETE FROM " . $wpdb->prefix . "posts WHERE post_status = %s;";
 		$wpdb->query($wpdb->prepare($sql, 'auto-draft'));
 	}

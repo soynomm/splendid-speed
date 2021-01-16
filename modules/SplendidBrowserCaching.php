@@ -31,7 +31,7 @@ class SplendidBrowserCaching extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function activate() {
+	public function activate(): void {
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		$this->add();
@@ -43,7 +43,7 @@ class SplendidBrowserCaching extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function disable() {
+	public function disable(): void {
 		$settings = $this->settings();
 		unset($settings[$this->key]);
 		$this->remove();
@@ -55,7 +55,7 @@ class SplendidBrowserCaching extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function register() {
+	public function register(): void {
 		// Silence is golden.
 	}
 
@@ -67,7 +67,7 @@ class SplendidBrowserCaching extends SplendidSpeed
 	 *
 	 * @since 1.0
 	 */
-	private function add() {
+	private function add(): bool {
 		$lines = [
 			'<IfModule mod_expires.c>',
 			// Add correct content-type for fonts
@@ -114,7 +114,7 @@ class SplendidBrowserCaching extends SplendidSpeed
 	 *
 	 * @since 1.0
 	 */
-	private function remove() {
+	private function remove(): bool {
 		return insert_with_markers(get_home_path() . '.htaccess', 'Splendid Speed Cache', []);
 	}
 }

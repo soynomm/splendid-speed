@@ -55,7 +55,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function activate() {
+	public function activate(): void {
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		update_option('splendid_speed_settings', $settings);
@@ -66,7 +66,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function disable() {
+	public function disable(): void {
 		$settings = $this->settings();
 		unset($settings[$this->key]);
 		$this->deleteImages();
@@ -78,8 +78,8 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function register() {
-		// Add JS
+	public function register(): void {
+		// Add JS to admin.
 		add_action('admin_enqueue_scripts', function($hook) {
 			if($hook === 'settings_page_splendid-speed') {
 		   		$convert_images_js = SPLENDID_SPEED_DIR_URL . 'assets/js/admin-convert-images-webp.js';
@@ -90,6 +90,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 		add_action('wp_ajax_nopriv_splendid_speed_convert_images_webp', [$this, 'ajaxConvert']);
 		add_action('wp_ajax_splendid_speed_convert_images_webp', [$this, 'ajaxConvert']);
 
+		// If the plugin is activated...
 		if($this->setting($this->key)) {
 			// Convert on image uploads
 			add_filter('wp_generate_attachment_metadata', [$this, 'convertOnUpload'], 10, 2);
@@ -109,7 +110,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function deleteImages() {
+	public function deleteImages(): void {
 		$directory = wp_upload_dir()['basedir'];
 		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
 
@@ -136,7 +137,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function alterHTML($content) {
+	public function alterHTML(string $content): string {
 		// Skip the feed.
 		if(is_feed()) return $content;
 
@@ -170,7 +171,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1.3
 	 */
-	public function alterImageSrc($image) {
+	public function alterImageSrc(array $image): array {
 		if(!empty($image) && !empty($image[0])) {
 			$src = $image[0];
 			$file = substr($src, strpos($src, 'uploads/') + 8);
@@ -222,7 +223,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function totalImages() {
+	public function totalImages(): int {
 		$images = 0;
 		$directory = wp_upload_dir()['basedir'];
 		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
@@ -248,7 +249,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function convertedImages() {
+	public function convertedImages(): int {
 		$images = 0;
 		$directory = wp_upload_dir()['basedir'];
 		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
@@ -308,7 +309,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function convert($limit = 5) {
+	public function convert(int $limit = 5): void {
 		$directory = wp_upload_dir()['basedir'];
 		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
 		$converted = 0;
@@ -352,7 +353,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function convertJPEG($path, $path_name, $base_name) {
+	public function convertJPEG(string $path, string $path_name, string $base_name): void {
 		if(class_exists('Imagick')) {
 			$image = new Imagick();
 			$image->readImage($path_name);
@@ -372,7 +373,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function convertPNG($path, $path_name, $base_name) {
+	public function convertPNG(string $path, string $path_name, string $base_name): void {
 		if(class_exists('Imagick')) {
 			$image = new Imagick();
 			$image->readImage($path_name);

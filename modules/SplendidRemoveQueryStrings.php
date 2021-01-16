@@ -32,7 +32,7 @@ class SplendidRemoveQueryStrings extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function activate() {
+	public function activate(): void {
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		update_option('splendid_speed_settings', $settings);
@@ -43,7 +43,7 @@ class SplendidRemoveQueryStrings extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function disable() {
+	public function disable(): void {
 		$settings = $this->settings();
 		unset($settings[$this->key]);
 		update_option('splendid_speed_settings', $settings);
@@ -54,7 +54,7 @@ class SplendidRemoveQueryStrings extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function register() {
+	public function register(): void {
 		if($this->setting($this->key) && !is_admin()) {
 			add_filter('script_loader_tag', [$this, 'remove'], 15);
 			add_filter('style_loader_tag', [$this, 'remove'], 15);
@@ -69,7 +69,7 @@ class SplendidRemoveQueryStrings extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function remove($src) {
+	public function remove(string $src): string {
 		$src = preg_replace('/\?[^\']*/', '', $src);
 		$src = preg_replace('/\?[^\"]*/', '', $src);
 
