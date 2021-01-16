@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'f1b3efa5a7b791e4c3f8b600834a44cbf2bad926',
+    'reference' => '9aa988d1f53c591de971c5d85dd98402651983a6',
     'name' => '__root__',
   ),
   'versions' => 
@@ -41,16 +41,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'f1b3efa5a7b791e4c3f8b600834a44cbf2bad926',
-    ),
-    'appsero/client' => 
-    array (
-      'pretty_version' => 'v1.2.0',
-      'version' => '1.2.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '5c3fdc4945c8680bca6fb01eee1ec5dc4f22de87',
+      'reference' => '9aa988d1f53c591de971c5d85dd98402651983a6',
     ),
     'matthiasmullie/minify' => 
     array (

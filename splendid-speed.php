@@ -31,12 +31,6 @@ define('SPLENDID_SPEED_FILE', __FILE__);
 // Composer deps
 require __DIR__ . '/vendor/autoload.php';
 
-// Initiate Appsero
-$appsero = new Appsero\Client('5c53af43-ca2a-4361-b6e8-b2a6a1d3d701', 'Splendid Speed', __FILE__);
-
-// Activate insights
-$appsero->insights()->init();
-
 // Get an instance of SplendidSpeed.
 require_once __DIR__ . '/SplendidSpeed.php';
 

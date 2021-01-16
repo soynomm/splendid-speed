@@ -12,10 +12,6 @@ class ComposerStaticInit4e00503a3094b4afba6c93dcdc779cf5
             'MatthiasMullie\\PathConverter\\' => 29,
             'MatthiasMullie\\Minify\\' => 22,
         ),
-        'A' => 
-        array (
-            'Appsero\\' => 8,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -26,10 +22,6 @@ class ComposerStaticInit4e00503a3094b4afba6c93dcdc779cf5
         'MatthiasMullie\\Minify\\' => 
         array (
             0 => __DIR__ . '/..' . '/matthiasmullie/minify/src',
-        ),
-        'Appsero\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/appsero/client/src',
         ),
     );
 
