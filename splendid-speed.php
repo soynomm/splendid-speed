@@ -2,10 +2,10 @@
 
 /**
  * Plugin Name: Splendid Speed
- * Plugin URI: https://splendidpress.com/speed
+ * Plugin URI: https://flame.sh/products/splendid-speed
  * Description: Splendid Speed improves your website performance and Google Pagespeed score with converting images to WebP, preloading pages, using Gzip and more.
- * Author: Splendid Press
- * Author URI: https://splendidpress.com
+ * Author: Flame
+ * Author URI: https://flame.sh
  * Version: 1.2.3
  * Text Domain: splendid-speed
  * Domain Path: /languages
