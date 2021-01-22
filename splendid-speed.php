@@ -6,7 +6,7 @@
  * Description: Splendid Speed improves your website performance and Google Pagespeed score with converting images to WebP, preloading pages, using Gzip and more.
  * Author: Flame
  * Author URI: https://flame.sh
- * Version: 1.3
+ * Version: 1.3.1
  * Text Domain: splendid-speed
  * Domain Path: /languages
  */

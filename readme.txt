@@ -95,6 +95,9 @@ This may happen if you are running multiple performance plugins at the same time
 
 == Changelog ==
 
+= 1.3.1 =
+* Fixed an issue in `alterImageSrc` of "Convert images to WebP".
+
 = 1.3 =
 * Fixed: Preload pages: instant.page script breaks other scripts. [#16](https://github.com/codebyflame/splendid-speed/issues/16)
 * Implemented: Change details from splendidpress.com to flame.sh. [#15](https://github.com/codebyflame/splendid-speed/issues/15)
