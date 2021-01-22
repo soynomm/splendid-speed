@@ -3,7 +3,7 @@ Contributors: splendidwp
 Tags: pagespeed, performance, webp, gzip, preload, inline
 Requires at least: 5.6
 Tested up to: 5.6
-Stable tag: 1.2.3
+Stable tag: 1.3
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -94,6 +94,14 @@ This may happen if you are running multiple performance plugins at the same time
 1. Simple and to the point configuration page.
 
 == Changelog ==
+
+= 1.3 =
+* Fixed: Preload pages: instant.page script breaks other scripts. [#16](https://github.com/codebyflame/splendid-speed/issues/16)
+* Implemented: Change details from splendidpress.com to flame.sh. [#15](https://github.com/codebyflame/splendid-speed/issues/15)
+* Implemented: Add PHP7ness. [#8](https://github.com/codebyflame/splendid-speed/issues/8)
+* Implemented: Remove Appsero. [#12](https://github.com/codebyflame/splendid-speed/issues/12)
+* Implemented: Defer scripts with lower quality. [#5](https://github.com/codebyflame/splendid-speed/issues/5)
+* Implemented: Delete cache on plugin update. [#7](https://github.com/codebyflame/splendid-speed/issues/7)
 
 = 1.2.3 =
 * Fixes an issue in Inline CSS where @import's weren't added to the top, and browsers require all @import's to precede any other CSS rules, so this broke things like imported google fonts or resets and any other stuff like that. 
