@@ -171,7 +171,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1.3
 	 */
-	public function alterImageSrc($image): array {
+	public function alterImageSrc($image) {
 		if(!empty($image) && !empty($image[0])) {
 			$src = $image[0];
 			$file = substr($src, strpos($src, 'uploads/') + 8);
