@@ -1,0 +1,293 @@
+.sp-header {
+    width: calc(100% + 20px);
+    text-align: center;
+    background: #fff;
+    box-shadow: 0px 1px 5px rgba(0,0,0,.04);
+    padding-top: 25px;
+    padding-bottom: 25px;
+    margin-left: -20px;
+    margin-bottom: 20px;
+}
+
+.sp-logo {
+    display: inline-block;
+    width: 150px;
+    height: 22px;
+    background: url(../images/splendidspeed.svg) no-repeat;
+    background-size: 100% auto;
+}
+
+.sp-body,
+.sp-body * {
+    box-sizing: border-box;
+    position: relative;
+}
+
+.sp-body {
+    max-width: 900px;
+    position: relative;
+    margin: 0 auto;
+    left:  -10px;
+}
+
+@media all and (max-width: 780px) {
+    .sp-body {
+        width: calc(100% - 15px);
+        left: -5px;
+    }
+}
+
+.sp-body .switch {
+    position: relative;
+    display: inline-block;
+    top: 13px;
+}
+
+/* Hide default HTML checkbox */
+.sp-body .switch input {
+    display: inline-block;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.sp-body .switch p {
+    vertical-align: top;
+    line-height: 1.65;
+    margin-top: -21px;
+    margin-left: 35px;
+}
+
+/* The slider */
+.sp-body .slider {
+    display: inline-block;
+    width: 24px;
+    height: 14px;
+    position: relative;
+    cursor: pointer;
+/*    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;*/
+    background-color: #ccc;
+    border-radius: 25px;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.sp-body .slider:before {
+    position: absolute;
+    content: "";
+    height: 8px;
+    width: 8px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 100%;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.sp-body input:checked + .slider {
+    background-color: #2196F3;
+}
+
+.sp-body input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+.sp-body input:checked + .slider:before {
+    -webkit-transform: translateX(8px);
+    -ms-transform: translateX(8px);
+    transform: translateX(8px);
+}
+
+.sp-body form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+    row-gap: 20px;
+}
+
+@media all and (max-width: 700px) {
+    .sp-body form {
+        grid-template-columns: 2fr;
+    }
+}
+
+.sp-option {
+    text-align: left;
+    background: rgba(255,255,255,.75);
+    border-radius: 3px;
+    vertical-align: top;
+    padding: 25px;
+}
+
+.sp-option-active {
+    background: #fff;
+    box-shadow: 0px 1px 5px rgba(0,0,0,.04);
+    border: 0;
+}
+
+.sp-option-heading {
+    margin-top: -3px;
+    margin-bottom: 8px;
+}
+
+.sp-option-heading-description {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #111;
+    position: relative;
+    padding: 4px 0px 4px 0px;
+    margin-left: 6px;
+    top: -3px;
+}
+
+.sp-option-heading-description span {
+    font-size: 17px;
+    position: absolute;
+    top: -2px;
+}
+
+@media all and (max-width: 780px) {
+    .sp-option-heading-description {
+        display: none;
+    }
+}
+
+.sp-option-heading-description .sp-tooltip {
+    display: none;
+}
+
+.sp-option-heading-description-warning {
+    display: block;
+    color: #272727;
+    background: #FBD000;
+    border-radius: 3px;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    margin-top: 8px;
+    margin-bottom: 3px;
+}
+
+.sp-option-heading-description:hover .sp-tooltip {
+    display: block;
+    width: 275px;
+    font-size: 12px;
+    line-height: 1.3;
+    font-weight: 400;
+    text-transform: none;
+    color: #eee;
+    background: #272727;
+    box-shadow: 0px 1px 15px rgba(0,0,0,.055);
+    border-radius: 3px;
+    z-index: 9999999;
+    position: absolute;
+    padding-top: 8px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 8px;
+    margin: 0;
+    margin-top: 20px;
+    margin-left: -60px;
+}
+
+.sp-option-heading-description:hover .sp-tooltip::after {
+    bottom: 100%;
+    left: 69px;
+    border: solid transparent;
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(39, 39, 39, 0);
+    border-bottom-color: #272727;
+    border-width: 5px;
+    margin-left: -5px;
+}
+
+.sp-option h3 {
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 0;
+    margin: 0;
+}
+
+.sp-option-label {
+    width: 100%;
+    margin: 0;
+}
+
+.sp-convert-images-webp-js {
+    font-size: 11px;
+    font-weight: 400;
+    color: #777;
+    text-transform: uppercase;
+}
+
+.sp-convert-images-webp-js {
+    display: block;
+    width: 55px;
+    height: 22px;
+    line-height: 22px;
+    font-weight: 400;
+    color: #111;
+    text-align: center;
+    background: #eee;
+    border-radius: 25px;
+    overflow: hidden;
+    position: absolute;
+    top: -5px;
+    right: 0;
+}
+
+.sp-convert-images-webp-js-progress {
+    display: block;
+    width: 0;
+    height: 22px;
+    background: #c2e2fc;
+}
+
+.sp-convert-images-webp-js-label {
+    width: 100%;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    position: absolute;
+    top: 0;
+}
+
+/** FOOTNOTE */
+.sp-footnote {
+    font-size: 10px !important;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    vertical-align: middle;
+    position: relative;
+    bottom: -18px;
+}
+
+.sp-footnote a {
+    color: #111;
+}
+
+.sp-footnote .sp-logo-mark {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background: url(../images/splendidpress-mark.svg) no-repeat;
+    background-size: cover;
+    position: relative;
+    margin-right: 2.5px;
+    bottom: -5px;
+}
