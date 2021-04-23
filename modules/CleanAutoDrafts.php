@@ -1,30 +1,34 @@
 <?php
 
+namespace SplendidSpeed\Modules;
+
+use SplendidSpeed\SplendidSpeed;
+
 /**
- * Enables the automatic deletion of trashed posts
+ * Enables the automatic deletion of auto-draft posts
  * upon activation and once per week thereafter.
  */
-class SplendidCleanTrash extends SplendidSpeed 
+class CleanAutoDrafts extends SplendidSpeed
 {
 	/**
 	 * A unique key used to store the setting in database.
 	 */
-	public $key = 'clean_trash';
+	public $key = 'clean_auto_drafts';
 
 	/**
 	 * Title of the module.
 	 */
-	public $title = 'Clean trash';
+	public $title = 'Clean auto-drafts';
 
 	/**
 	 * Label of the module.
 	 */
-	public $label = 'Delete all trash periodically every week.';
+	public $label = 'Delete all auto-drafts periodically every week.';
 
 	/**
 	 * Description of the module.
 	 */
-	public $description = 'This helps keep your database size small. Note however that by doing so all deleted content will disappear for good.';
+	public $description = 'This helps keep your database size small. Auto-drafts are created automatically while you are editing a post or page, and over time this can clutter your database.';
 
 	/**
 	 * Activates any module related things.
@@ -36,7 +40,7 @@ class SplendidCleanTrash extends SplendidSpeed
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		$this->clean();
-		wp_schedule_event(time(), 'weekly', 'splendid_speed_weekly_clean_trash');
+		wp_schedule_event(time(), 'weekly', 'splendid_speed_weekly_clean_auto_drafts');
 		update_option('splendid_speed_settings', $settings);
 	}
 
@@ -49,7 +53,7 @@ class SplendidCleanTrash extends SplendidSpeed
 	{
 		$settings = $this->settings();
 		unset($settings[$this->key]);
-		wp_clear_scheduled_hook('splendid_speed_weekly_clean_trash');
+		wp_clear_scheduled_hook('splendid_speed_weekly_clean_auto_drafts');
 		update_option('splendid_speed_settings', $settings);
 	}
 
@@ -61,7 +65,7 @@ class SplendidCleanTrash extends SplendidSpeed
 	public function register(): void
 	{
 		if($this->setting($this->key)) {
-			add_action('splendid_speed_weekly_clean_trash', [$this, 'clean']);
+			add_action('splendid_speed_weekly_clean_auto_drafts', [$this, 'clean']);
 		}
 	}
 
@@ -75,6 +79,6 @@ class SplendidCleanTrash extends SplendidSpeed
 		global $wpdb;
 		
 		$sql = "DELETE FROM " . $wpdb->prefix . "posts WHERE post_status = %s;";
-		$wpdb->query($wpdb->prepare($sql, 'trash'));
+		$wpdb->query($wpdb->prepare($sql, 'auto-draft'));
 	}
 }

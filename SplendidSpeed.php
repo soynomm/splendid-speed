@@ -1,5 +1,7 @@
 <?php
 
+namespace SplendidSpeed;
+
 class SplendidSpeed 
 {
 	/**
@@ -91,7 +93,7 @@ class SplendidSpeed
 		 */
 		foreach(glob(SPLENDID_SPEED_DIR . '/modules/*.php') as $module) {
 			require_once $module;
-			$className = str_replace('.php', '', basename($module));
+			$className = '\SplendidSpeed\Modules\\' . str_replace('.php', '', basename($module));
 			$classInstance = new $className();
 			call_user_func([$classInstance, 'register']);
 		}
@@ -175,7 +177,7 @@ class SplendidSpeed
 		$settings = $this->post('splendid');
 
 		foreach(glob(SPLENDID_SPEED_DIR . '/modules/*.php') as $module) {
-			$className = str_replace('.php', '', basename($module));
+			$className = '\SplendidSpeed\Modules\\' . str_replace('.php', '', basename($module));
 			$classInstance = new $className();
 
 			if(is_array($settings)) {
@@ -199,7 +201,7 @@ class SplendidSpeed
 	public function erase(): void
     {
 		foreach(glob(SPLENDID_SPEED_DIR . '/modules/*.php') as $module) {
-			$className = str_replace('.php', '', basename($module));
+			$className = '\SplendidSpeed\Modules\\' . str_replace('.php', '', basename($module));
 			$classInstance = new $className();
 			call_user_func([$classInstance, 'disable']);
 		}
@@ -238,7 +240,7 @@ class SplendidSpeed
 				<input type="hidden" name="splendid_form" value="1">
 				<?php
 				foreach(glob(SPLENDID_SPEED_DIR . '/modules/*.php') as $module):
-				$className = str_replace('.php', '', basename($module));
+				$className = '\SplendidSpeed\Modules\\' . str_replace('.php', '', basename($module));
 				$classInstance = new $className();
 				?>
 				<div class="sp-option <?php if($this->setting($classInstance->key)): ?>sp-option-active<?php endif; ?>">

@@ -34,5 +34,5 @@ require __DIR__ . '/vendor/autoload.php';
 // Get an instance of SplendidSpeed.
 require_once __DIR__ . '/SplendidSpeed.php';
 
-$SplendidSpeed = new SplendidSpeed();
+$SplendidSpeed = new \SplendidSpeed\SplendidSpeed();
 $SplendidSpeed->init();

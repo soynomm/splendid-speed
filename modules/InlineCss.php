@@ -1,13 +1,16 @@
 <?php
 
+namespace SplendidSpeed\Modules;
+
+use SplendidSpeed\SplendidSpeed;
+use MatthiasMullie\Minify;
+
 /**
  * Inlines and minifies all CSS used on the site,
  * thus saving the browser from having to do trips
  * to individual stylesheet files.
  */
-use MatthiasMullie\Minify;
-
-class SplendidInlineCss extends SplendidSpeed 
+class InlineCss extends SplendidSpeed
 {
 	/**
 	 * A unique key used to store the setting in database.
@@ -318,7 +321,7 @@ class SplendidInlineCss extends SplendidSpeed
 				'css' => $minifier->minify(),
 				'imports' => !empty($matches[0]) ? $matches[0] : []
 			];
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			return false;
 		}
 	}

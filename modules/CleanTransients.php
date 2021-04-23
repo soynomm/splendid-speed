@@ -1,10 +1,14 @@
 <?php
 
+namespace SplendidSpeed\Modules;
+
+use SplendidSpeed\SplendidSpeed;
+
 /**
  * Enables the automatic deletion of transients
  * upon activation and once per week thereafter.
  */
-class SplendidCleanTransients extends SplendidSpeed 
+class CleanTransients extends SplendidSpeed
 {
 	/**
 	 * A unique key used to store the setting in database.

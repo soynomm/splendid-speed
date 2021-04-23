@@ -1,12 +1,16 @@
 <?php
 
+namespace SplendidSpeed\Modules;
+
+use SplendidSpeed\SplendidSpeed;
+
 /**
  * Enables the conversion of images to the more 
  * performant WebP file format upon activation, while
  * being on the Splendid Speed settings page, and whenever
  * uploading new images.
  */
-class SplendidConvertImagesWebp extends SplendidSpeed 
+class ConvertImagesWebp extends SplendidSpeed
 {
 	/**
 	 * A unique key used to store the setting in database.
@@ -118,7 +122,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	public function deleteImages(): void
 	{
 		$directory = wp_upload_dir()['basedir'];
-		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory));
 
 		foreach($iterator as $file) {
 			if($file->isDir()) continue;
@@ -236,7 +240,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	{
 		$images = 0;
 		$directory = wp_upload_dir()['basedir'];
-		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory));
 
 		foreach($iterator as $file) {
 			if($file->isDir()) continue;
@@ -263,7 +267,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	{
 		$images = 0;
 		$directory = wp_upload_dir()['basedir'];
-		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory));
 
 		foreach($iterator as $file) {
 			if($file->isDir()) continue;
@@ -324,7 +328,7 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	public function convert(int $limit = 5): void
 	{
 		$directory = wp_upload_dir()['basedir'];
-		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory));
 		$converted = 0;
 
 		foreach($iterator as $file) {
@@ -368,14 +372,14 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 */
 	public function convertJPEG(string $path, string $path_name, string $base_name): void
 	{
-		if(class_exists('Imagick')) {
+		if(class_exists('\Imagick')) {
 			try {
-				$image = new Imagick();
+				$image = new \Imagick();
 				$image->readImage( $path_name );
 				$image->setImageFormat( 'webp' );
 				$image->setImageCompressionQuality( 80 );
 				$image->writeImage( $path . '/' . $base_name . '.webp' );
-			} catch(ImagickException $e) {
+			} catch(\ImagickException $e) {
 				// Something went wrong.
 			}
 		}
@@ -393,15 +397,15 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 */
 	public function convertPNG(string $path, string $path_name, string $base_name): void
 	{
-		if(class_exists('Imagick')) {
+		if(class_exists('\Imagick')) {
 			try {
-				$image = new Imagick();
+				$image = new \Imagick();
 				$image->readImage($path_name);
 				$image->setImageFormat('webp');
 				$image->setImageCompressionQuality(80);
 				$image->setOption('webp:lossless', 'true');
 				$image->writeImage($path . '/' . $base_name . '.webp');
-			} catch(ImagickException $e) {
+			} catch(\ImagickException $e) {
 				// Something went wrong.
 			}
 		}

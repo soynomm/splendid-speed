@@ -1,10 +1,14 @@
 <?php
 
+namespace SplendidSpeed\Modules;
+
+use SplendidSpeed\SplendidSpeed;
+
 /**
  * Enables GZipping of static assets feature via the use of
  * Apache web server and mod_deflate module.
  */
-class SplendidGzip extends SplendidSpeed 
+class Gzip extends SplendidSpeed
 {
 	/**
 	 * A unique key used to store the setting in database.

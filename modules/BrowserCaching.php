@@ -1,10 +1,14 @@
 <?php
 
+namespace SplendidSpeed\Modules;
+
+use SplendidSpeed\SplendidSpeed;
+
 /**
  * Enables browser caching feature via the use of
  * Apache web server and mod_expires module.
  */
-class SplendidBrowserCaching extends SplendidSpeed 
+class BrowserCaching extends SplendidSpeed
 {
 	/**
 	 * A unique key used to store the setting in database.

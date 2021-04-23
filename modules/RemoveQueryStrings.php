@@ -1,11 +1,15 @@
 <?php
 
+namespace SplendidSpeed\Modules;
+
+use SplendidSpeed\SplendidSpeed;
+
 /**
  * Allows the website to become visible before
  * all of the scripts have loaded, thus allowing
  * users to start interacting with the website faster.
  */
-class SplendidRemoveQueryStrings extends SplendidSpeed 
+class RemoveQueryStrings extends SplendidSpeed
 {
 	/**
 	 * A unique key used to store the setting in database.
