@@ -66,7 +66,7 @@ class SplendidSpeed
 			$screen = get_current_screen();
 
 			if($screen->id === 'settings_page_splendid-speed') {
-				return '<p class="sp-footnote">A very <a class="sp-logo-mark" href="https://splendidpress.com" target="_blank"></a> plugin</p>';
+				return '<p class="sp-footnote">A very <a class="sp-logo-mark" href="https://nomm.xyz" target="_blank"></a> plugin</p>';
 			}
 		});
 
