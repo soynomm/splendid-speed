@@ -17,7 +17,7 @@ if(!defined('ABSPATH')) {
 }
 
 // Define directory.
-define('SPLENDID_SPEED_DIR', __DIR__);
+const SPLENDID_SPEED_DIR = __DIR__;
 
 // Define directory URL.
 define('SPLENDID_SPEED_DIR_URL', plugin_dir_url(__FILE__));
@@ -26,7 +26,7 @@ define('SPLENDID_SPEED_DIR_URL', plugin_dir_url(__FILE__));
 define('SPLENDID_SPEED_BASENAME', plugin_basename(__FILE__));
 
 // Define plugin file.
-define('SPLENDID_SPEED_FILE', __FILE__);
+const SPLENDID_SPEED_FILE = __FILE__;
 
 // Composer deps
 require __DIR__ . '/vendor/autoload.php';

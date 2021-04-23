@@ -42,7 +42,8 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	function __construct() {
+	function __construct()
+	{
 		if($this->setting($this->key)) {
 			$this->option_heading_html = '<span class="sp-convert-images-webp-js">
 				<div class="sp-convert-images-webp-js-progress"></div>
@@ -56,7 +57,8 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function activate(): void {
+	public function activate(): void
+	{
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		update_option('splendid_speed_settings', $settings);
@@ -67,7 +69,8 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function disable(): void {
+	public function disable(): void
+	{
 		$settings = $this->settings();
 		unset($settings[$this->key]);
 		$this->deleteImages();
@@ -79,7 +82,8 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function register(): void {
+	public function register(): void
+	{
 		// Add JS to admin.
 		add_action('admin_enqueue_scripts', function($hook) {
 			if($hook === 'settings_page_splendid-speed') {
@@ -111,14 +115,14 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function deleteImages(): void {
+	public function deleteImages(): void
+	{
 		$directory = wp_upload_dir()['basedir'];
 		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
 
 		foreach($iterator as $file) {
 			if($file->isDir()) continue;
 
-			$path = $file->getPath();
 			$path_name = $file->getPathname();
 			$ext = $file->getExtension();
 
@@ -129,16 +133,18 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	}
 
 	/**
-	 * Alters the given HTML given by 
+	 * Alters the given HTML given by
 	 * modifying all `img` tags to use the .webp
 	 * counterpart if one is available.
-	 * 
-	 * @param $content
+	 *
+	 * @param string $content
+	 *
 	 * @return string
-	 * 
+	 *
 	 * @since 1.1
 	 */
-	public function alterHTML(string $content): string {
+	public function alterHTML(string $content): string
+	{
 		// Skip the feed.
 		if(is_feed()) return $content;
 
@@ -172,7 +178,8 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1.3
 	 */
-	public function alterImageSrc($image) {
+	public function alterImageSrc($image)
+	{
 		if(!empty($image) && !empty($image[0])) {
 			$src = $image[0];
 			$file = substr($src, strpos($src, 'uploads/') + 8);
@@ -197,7 +204,8 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function ajaxConvert() {
+	public function ajaxConvert()
+	{
 		if(!class_exists('Imagick')) {
 			wp_send_json_success(['error' => 'Can\'t convert images. Contact your webmaster about lacking Imagick.']);
 		}
@@ -224,7 +232,8 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function totalImages(): int {
+	public function totalImages(): int
+	{
 		$images = 0;
 		$directory = wp_upload_dir()['basedir'];
 		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
@@ -250,7 +259,8 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function convertedImages(): int {
+	public function convertedImages(): int
+	{
 		$images = 0;
 		$directory = wp_upload_dir()['basedir'];
 		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
@@ -294,7 +304,8 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function convertOnUpload($metadata, $attachment_id) {
+	public function convertOnUpload($metadata, $attachment_id)
+	{
 		$this->convert(100);
 
 		return $metadata;
@@ -305,12 +316,13 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * it will attempt to convert any JPG, JPEG and
 	 * PNG files it finds, that have not already
 	 * been converted.
-	 * 
-	 * @param $limit
-	 * 
+	 *
+	 * @param int $limit
+	 *
 	 * @since 1.1
 	 */
-	public function convert(int $limit = 5): void {
+	public function convert(int $limit = 5): void
+	{
 		$directory = wp_upload_dir()['basedir'];
 		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
 		$converted = 0;
@@ -345,22 +357,27 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	}
 
 	/**
-	 * Converts a JPG or JPEG image into a 
+	 * Converts a JPG or JPEG image into a
 	 * WebP image, provided that Imagic is installed.
 	 *
-	 * @param $path
-	 * @param $path_name
-	 * @param $base_name
-	 * 
+	 * @param string $path
+	 * @param string $path_name
+	 * @param string $base_name
+	 *
 	 * @since 1.1
 	 */
-	public function convertJPEG(string $path, string $path_name, string $base_name): void {
+	public function convertJPEG(string $path, string $path_name, string $base_name): void
+	{
 		if(class_exists('Imagick')) {
-			$image = new Imagick();
-			$image->readImage($path_name);
-			$image->setImageFormat('webp');
-			$image->setImageCompressionQuality(80);
-			$image->writeImage($path . '/' . $base_name . '.webp');
+			try {
+				$image = new Imagick();
+				$image->readImage( $path_name );
+				$image->setImageFormat( 'webp' );
+				$image->setImageCompressionQuality( 80 );
+				$image->writeImage( $path . '/' . $base_name . '.webp' );
+			} catch(ImagickException $e) {
+				// Something went wrong.
+			}
 		}
 	}
 
@@ -368,20 +385,25 @@ class SplendidConvertImagesWebp extends SplendidSpeed
 	 * Converts a PNG image into a
 	 * WebP image, provided that Imagic is installed.
 	 *
-	 * @param $path
-	 * @param $path_name
-	 * @param $base_name
+	 * @param string $path
+	 * @param string $path_name
+	 * @param string $base_name
 	 *
 	 * @since 1.1
 	 */
-	public function convertPNG(string $path, string $path_name, string $base_name): void {
+	public function convertPNG(string $path, string $path_name, string $base_name): void
+	{
 		if(class_exists('Imagick')) {
-			$image = new Imagick();
-			$image->readImage($path_name);
-			$image->setImageFormat('webp');
-			$image->setImageCompressionQuality(80);
-			$image->setOption('webp:lossless', 'true');
-			$image->writeImage($path . '/' . $base_name . '.webp');
+			try {
+				$image = new Imagick();
+				$image->readImage($path_name);
+				$image->setImageFormat('webp');
+				$image->setImageCompressionQuality(80);
+				$image->setOption('webp:lossless', 'true');
+				$image->writeImage($path . '/' . $base_name . '.webp');
+			} catch(ImagickException $e) {
+				// Something went wrong.
+			}
 		}
 	}
 }

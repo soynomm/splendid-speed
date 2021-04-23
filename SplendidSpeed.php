@@ -7,7 +7,8 @@ class SplendidSpeed
 	 * 
 	 * @since 1.0
 	 */
-	public function init(): void {
+	public function init(): void
+    {
 		add_action('plugins_loaded', [$this, 'register_services']);
 	}
 
@@ -16,7 +17,8 @@ class SplendidSpeed
 	 * 
 	 * @since 1.0
 	 */
-	public function register_services(): void {
+	public function register_services(): void
+    {
 		/**
 		 * Update settings on POST.
 		 * 
@@ -50,8 +52,8 @@ class SplendidSpeed
 		 */
 		add_action('admin_enqueue_scripts', function($hook) {
 		   if($hook === 'settings_page_splendid-speed') {
-			   wp_enqueue_style('splendid-speed', SPLENDID_SPEED_DIR_URL . 'assets/css/admin.css', [], '1.3.2');
-			   wp_enqueue_script('splendid-speed-admin-page', SPLENDID_SPEED_DIR_URL . 'assets/js/admin.js', [], '1.3.2', true);
+			   wp_enqueue_style('splendid-speed', SPLENDID_SPEED_DIR_URL . 'assets/css/admin.css', [], '1.3.5');
+			   wp_enqueue_script('splendid-speed-admin-page', SPLENDID_SPEED_DIR_URL . 'assets/js/admin.js', [], '1.3.5', true);
 		   }
 		});
 
@@ -97,13 +99,15 @@ class SplendidSpeed
 
 	/**
 	 * Checks for an item in $_POST.
-	 * 
-	 * @param $key
+	 *
+	 * @param string $key
+	 *
 	 * @return string|bool
-	 * 
+	 *
 	 * @since 1.0
 	 */
-	public function post(string $key) {
+	public function post(string $key)
+    {
 		if(!empty($_POST[$key])) {
 			return $_POST[$key];
 		}
@@ -113,13 +117,15 @@ class SplendidSpeed
 
 	/**
 	 * checks for an item in $_GET.
-	 * 
-	 * @param $key
-	 * @return string|bool 
+	 *
+	 * @param string $key
+	 *
+	 * @return string|bool
 	 *
 	 * @since 1.0
 	 */
-	public function get(string $key) {
+	public function get(string $key)
+    {
 		if(!empty($_GET[$key])) {
 			return sanitize_key($_GET[$key]);
 		}
@@ -134,19 +140,22 @@ class SplendidSpeed
 	 *
 	 * @since 1.0
 	 */
-	public function settings(): array {
+	public function settings(): array
+    {
 		return get_option('splendid_speed_settings', []);
 	}
 
 	/**
 	 * Returns a specific item from `$this->settings()`.
 	 *
-	 * @param $key
+	 * @param string $key
+	 *
 	 * @return false|mixed
 	 *
 	 * @since 1.0
 	 */
-	public function setting(string $key) {
+	public function setting(string $key)
+    {
 		$settings = $this->settings();
 
 		if(isset($settings[$key])) {
@@ -161,7 +170,8 @@ class SplendidSpeed
 	 *
 	 * @since 1.0
 	 */
-	public function update_settings(): void {
+	public function update_settings(): void
+    {
 		$settings = $this->post('splendid');
 
 		foreach(glob(SPLENDID_SPEED_DIR . '/modules/*.php') as $module) {
@@ -186,7 +196,8 @@ class SplendidSpeed
 	 *
 	 * @since 1.0
 	 */
-	public function erase(): void {
+	public function erase(): void
+    {
 		foreach(glob(SPLENDID_SPEED_DIR . '/modules/*.php') as $module) {
 			$className = str_replace('.php', '', basename($module));
 			$classInstance = new $className();
@@ -204,7 +215,8 @@ class SplendidSpeed
 	 * 
 	 * @since 1.0
 	 */
-	public function plugins_page_link(array $links): array {
+	public function plugins_page_link(array $links): array
+    {
 		$url = get_admin_url() . "options-general.php?page=splendid-speed";
 		$settings_link = '<a href="' . $url . '">' . __('Settings', 'splendid-speed') . '</a>';
 		array_unshift($links, $settings_link);

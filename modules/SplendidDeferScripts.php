@@ -32,7 +32,8 @@ class SplendidDeferScripts extends SplendidSpeed
 	 * as it can cause breakages.
 	 */
 	private $excluded = [
-		'jquery'
+		'jquery',
+		'captcha'
 	];
 
 	/**
@@ -40,7 +41,8 @@ class SplendidDeferScripts extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function activate(): void {
+	public function activate(): void
+	{
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		update_option('splendid_speed_settings', $settings);
@@ -51,7 +53,8 @@ class SplendidDeferScripts extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function disable(): void {
+	public function disable(): void
+	{
 		$settings = $this->settings();
 		unset($settings[$this->key]);
 		update_option('splendid_speed_settings', $settings);
@@ -62,7 +65,8 @@ class SplendidDeferScripts extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function register(): void {
+	public function register(): void
+	{
 		if($this->setting($this->key) && !is_admin()) {
 			add_filter('script_loader_tag', function($script) {
 				// If it's not JS, don't do anything.

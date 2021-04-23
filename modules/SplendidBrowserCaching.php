@@ -31,7 +31,8 @@ class SplendidBrowserCaching extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function activate(): void {
+	public function activate(): void
+	{
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		$this->add();
@@ -43,7 +44,8 @@ class SplendidBrowserCaching extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function disable(): void {
+	public function disable(): void
+	{
 		$settings = $this->settings();
 		unset($settings[$this->key]);
 		$this->remove();
@@ -55,7 +57,8 @@ class SplendidBrowserCaching extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function register(): void {
+	public function register(): void
+	{
 		// Silence is golden.
 	}
 
@@ -63,11 +66,12 @@ class SplendidBrowserCaching extends SplendidSpeed
 	 * Adds the needed rules to .htaccess to allow
 	 * caching of static assets.
 	 *
-	 * @return bool
+	 * @return void
 	 *
 	 * @since 1.0
 	 */
-	private function add(): bool {
+	private function add(): void
+	{
 		$lines = [
 			'<IfModule mod_expires.c>',
 			// Add correct content-type for fonts
@@ -104,17 +108,18 @@ class SplendidBrowserCaching extends SplendidSpeed
 			'</IfModule>'
 		];
 
-		return insert_with_markers(get_home_path() . '.htaccess', 'Splendid Speed Cache', $lines);
+		insert_with_markers( get_home_path() . '.htaccess', 'Splendid Speed Cache', $lines );
 	}
 
 	/**
 	 * Removes the caching rules from .htaccess.
 	 *
-	 * @return bool
+	 * @return void
 	 *
 	 * @since 1.0
 	 */
-	private function remove(): bool {
-		return insert_with_markers(get_home_path() . '.htaccess', 'Splendid Speed Cache', []);
+	private function remove(): void
+	{
+		insert_with_markers( get_home_path() . '.htaccess', 'Splendid Speed Cache', [] );
 	}
 }

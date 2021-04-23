@@ -37,7 +37,8 @@ class SplendidInlineCss extends SplendidSpeed
 	/**
 	 * Upon initiation, set some things.
 	 */
-	function __construct() {
+	function __construct()
+    {
 		if($this->setting($this->key)) {
 			$this->cache_dir = wp_upload_dir()['basedir'] . '/' . 'splendid_speed';
 		}
@@ -48,7 +49,8 @@ class SplendidInlineCss extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function activate(): void {
+	public function activate(): void
+    {
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		update_option('splendid_speed_settings', $settings);
@@ -59,7 +61,8 @@ class SplendidInlineCss extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function disable(): void {
+	public function disable(): void
+    {
 		$settings = $this->settings();
 		unset($settings[$this->key]);
 
@@ -74,7 +77,8 @@ class SplendidInlineCss extends SplendidSpeed
 	 * 
 	 * @since 1.2
 	 */
-	public function register(): void {
+	public function register(): void
+    {
 		if($this->setting($this->key)) {
 			// If not admin.
 			if(!is_admin()) {
@@ -124,18 +128,20 @@ class SplendidInlineCss extends SplendidSpeed
 		}
 	}
 
-	/**
-	 * Runs when the plugin is being upgraded.
-	 * 
-	 * Will delete the cache for Inline CSS.
-	 * 
-	 * @param $upgradeObj
-	 * @param $options
-	 * @return void
-	 * 
-	 * @since 1.2.4
-	 */
-	public function onUpgrade($upgraderObj, $options): void {
+    /**
+     * Runs when the plugin is being upgraded.
+     *
+     * Will delete the cache for Inline CSS.
+     *
+     * @param $upgraderObj
+     * @param $options
+     *
+     * @return void
+     *
+     * @since 1.2.4
+     */
+	public function onUpgrade($upgraderObj, $options): void
+    {
 		$this->deleteCache();
 	}
 
@@ -146,7 +152,8 @@ class SplendidInlineCss extends SplendidSpeed
 	 * 
 	 * @since 1.2.4
 	 */
-	public function getCache() {
+	public function getCache()
+    {
 		if(file_exists($this->cache_dir . '/css.cache')) {
 			return file_get_contents($this->cache_dir . '/css.cache');
 		}
@@ -154,16 +161,18 @@ class SplendidInlineCss extends SplendidSpeed
 		return false;
 	}
 
-	/**
-	 * Creates a cache file or updates it when
-	 * it already exists.
-	 * 
-	 * @param $cache
-	 * @return void
-	 * 
-	 * @since 1.2.4
-	 */
-	public function putCache(string $cache): void {
+    /**
+     * Creates a cache file or updates it when
+     * it already exists.
+     *
+     * @param string $cache
+     *
+     * @return void
+     *
+     * @since 1.2.4
+     */
+	public function putCache(string $cache): void
+    {
 		if(file_exists($this->cache_dir)) {
 			file_put_contents($this->cache_dir . '/css.cache', $cache);
 		}
@@ -176,7 +185,8 @@ class SplendidInlineCss extends SplendidSpeed
 	 * 
 	 * @since 1.2.4
 	 */
-	public function deleteCache(): void {
+	public function deleteCache(): void
+    {
 		if(file_exists($this->cache_dir . '/css.cache')) {
 			unlink($this->cache_dir . '/css.cache');
 		}
@@ -194,7 +204,8 @@ class SplendidInlineCss extends SplendidSpeed
 	 * 
 	 * @since 1.2.3
 	 */
-	public function composeCache($styles): string {
+	public function composeCache($styles): string
+    {
 		$cache = '';
 		$imports = [];
 
@@ -239,15 +250,16 @@ class SplendidInlineCss extends SplendidSpeed
 		return join(' ', $imports) . $cache;
 	}
 
-	/**
-	 * Fetches the CSS for a given registered style.
-	 *
-	 * @param $name
-	 * @return string|bool
-	 * 
-	 * @since 1.2
-	 */
-	public function fetch(string $name) {
+    /**
+     * Fetches the CSS for a given registered style.
+     *
+     * @param string $name
+     *
+     * @return array|false
+     * @since 1.2
+     */
+	public function fetch(string $name)
+    {
 		global $wp_styles;
 
 		$src = $wp_styles->registered[$name]->src;

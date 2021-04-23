@@ -31,7 +31,8 @@ class SplendidGzip extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function activate(): void {
+	public function activate(): void
+	{
 		$settings = $this->settings();
 		$settings[$this->key] = true;
 		$this->zip();
@@ -43,7 +44,8 @@ class SplendidGzip extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function disable(): void {
+	public function disable(): void
+	{
 		$settings = $this->settings();
 		unset($settings[$this->key]);
 		$this->unzip();
@@ -55,7 +57,8 @@ class SplendidGzip extends SplendidSpeed
 	 * 
 	 * @since 1.1
 	 */
-	public function register(): void {
+	public function register(): void
+	{
 		// Silence is golden.
 	}
 
@@ -63,11 +66,12 @@ class SplendidGzip extends SplendidSpeed
 	 * Adds the needed rules to .htaccess to enable
 	 * gzipping of static assets.
 	 *
-	 * @return bool
+	 * @return void
 	 *
 	 * @since 1.0
 	 */
-	private function zip(): bool {
+	private function zip(): void
+	{
 		$lines = [
 			'<IfModule mod_deflate.c>',
 			'AddOutputFilterByType DEFLATE image/svg+xml',
@@ -94,17 +98,18 @@ class SplendidGzip extends SplendidSpeed
 			'</IfModule>'
 		];
 
-		return insert_with_markers(get_home_path() . '.htaccess', 'Splendid Speed GZIP', $lines);
+		insert_with_markers( get_home_path() . '.htaccess', 'Splendid Speed GZIP', $lines );
 	}
 
 	/**
 	 * Removes the gzipping rules from .htaccess.
 	 *
-	 * @return bool
+	 * @return void
 	 *
 	 * @since 1.0
 	 */
-	private function unzip(): bool {
-		return insert_with_markers(get_home_path() . '.htaccess', 'Splendid Speed GZIP', []);
+	private function unzip(): void
+	{
+		insert_with_markers( get_home_path() . '.htaccess', 'Splendid Speed GZIP', [] );
 	}
 }
