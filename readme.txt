@@ -3,7 +3,7 @@ Contributors: splendidwp
 Tags: pagespeed, performance, webp, gzip, preload, inline
 Requires at least: 5.6
 Tested up to: 5.7
-Stable tag: 1.3.5
+Stable tag: 1.4.1
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -85,6 +85,14 @@ This may happen if you are running multiple performance plugins at the same time
 1. Simple and to the point configuration page.
 
 == Changelog ==
+
+= 1.4.1 =
+* Calculating converted images now only counts those with a "_ss" suffix, as we know for sure that those were converted by Splendid Speed.
+
+= 1.4 =
+* The plugin will now try to convert images to WebP file format with GD if ImageMagick is not present, this should cover most web hosting providers.
+* Newly converted images will now have a _ss suffix in their WebP file names, this is because the plugin may have deleted WebP images that were _not_ converted by this plugin when disabling the WebP conversion module as part of a clean-up process, and should no longer happen.
+* When your web hosting does not support WebP image conversions, the module will not display that it doesn't, where previously you would not have any indication as to why WebP conversion did not work.
 
 = 1.3.5 =
 * Added a warning to WebP image conversion stating that once the module is deactivated, the converted WebP images will also be deleted.

@@ -6,7 +6,7 @@
  * Description: Splendid Speed improves your website performance and Google Pagespeed score with converting images to WebP, preloading pages, using Gzip and more.
  * Author: Nomm
  * Author URI: https://nomm.xyz
- * Version: 1.3.5
+ * Version: 1.4.1
  * Text Domain: splendid-speed
  * Domain Path: /languages
  */

@@ -290,25 +290,15 @@ class ConvertImagesWebp extends SplendidSpeed
 			$ext = $file->getExtension();
 			$path = $file->getPath();
 
-			if($ext === 'jpeg' && file_exists($path . '/' . $file->getBasename('.jpeg') . '.webp')) {
-				$images++;
-			}
-
 			if($ext === 'jpeg' && file_exists($path . '/' . $file->getBasename('.jpeg') . '_ss.webp')) {
 				$images++;
 			}
 
-			if($ext === 'jpg' && file_exists($path . '/' . $file->getBasename('.jpg') . '.webp')) {
-				$images++;
-			}
 
 			if($ext === 'jpg' && file_exists($path . '/' . $file->getBasename('.jpg') . '_ss.webp')) {
 				$images++;
 			}
 
-			if($ext === 'png' && file_exists($path . '/' . $file->getBasename('.png') . '.webp')) {
-				$images++;
-			}
 
 			if($ext === 'png' && file_exists($path . '/' . $file->getBasename('.png') . '_ss.webp')) {
 				$images++;
