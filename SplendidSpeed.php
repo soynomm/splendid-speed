@@ -259,11 +259,13 @@ class SplendidSpeed
 						</h3>
 					</div>
 					<div class="sp-option-label">
+						<?php if(!isset($classInstance->supported) || $classInstance->supported === true): ?>
 						<label class="switch">
 							<input type="checkbox" name="splendid[<?php echo $classInstance->key; ?>]" <?php if($this->setting($classInstance->key)): ?>checked<?php endif; ?>>
 							<span class="slider"></span>
 							<p><?php _e($classInstance->label, 'splendid-speed'); ?></p>
 						</label>
+						<?php else: echo $classInstance->not_supported_message; endif; ?>
 					</div>
 				</div>
 				<?php endforeach; ?>

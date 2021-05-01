@@ -39,6 +39,16 @@ class ConvertImagesWebp extends SplendidSpeed
 	public $option_heading_html = '';
 
 	/**
+	 * Is the module supported by the hosting provider?
+	 */
+	public $supported = true;
+
+	/**
+	 * And if it isn't, display a message.
+	 */
+	public $not_supported_message = 'This webserver does not support Imagick, which is required for the module to work. Please contact your webmaster.';
+
+	/**
 	 * Upon plugin load, if the plugin is activated,
 	 * add the span into the description for our ajax based 
 	 * conversion system, which will display the amount of 
@@ -48,6 +58,8 @@ class ConvertImagesWebp extends SplendidSpeed
 	 */
 	function __construct()
 	{
+		$this->supported = class_exists('\Imagick');
+		
 		if($this->setting($this->key)) {
 			$this->option_heading_html = '<span class="sp-convert-images-webp-js">
 				<div class="sp-convert-images-webp-js-progress"></div>
