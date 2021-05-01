@@ -46,7 +46,7 @@ class ConvertImagesWebp extends SplendidSpeed
 	/**
 	 * And if it isn't, display a message.
 	 */
-	public $not_supported_message = 'This webserver does not support Imagick, which is required for the module to work. Please contact your webmaster.';
+	public $not_supported_message;
 
 	/**
 	 * Upon plugin load, if the plugin is activated,
@@ -58,8 +58,11 @@ class ConvertImagesWebp extends SplendidSpeed
 	 */
 	function __construct()
 	{
-		$this->supported = class_exists('\Imagick');
-		
+		if(!class_exists('\Imagick') && !extension_loaded('gd')) {
+			$this->supported = false;
+			$this->not_supported_message =  'This webserver does not support Imagick or GD required for the module to work. Please contact your webmaster.';
+		}
+
 		if($this->setting($this->key)) {
 			$this->option_heading_html = '<span class="sp-convert-images-webp-js">
 				<div class="sp-convert-images-webp-js-progress"></div>
@@ -142,7 +145,7 @@ class ConvertImagesWebp extends SplendidSpeed
 			$path_name = $file->getPathname();
 			$ext = $file->getExtension();
 
-			if(preg_match('/_ss.webp/', $path_name) && $ext === 'webp') {
+			if(str_ends_with($path_name, '_ss.webp') && $ext === 'webp') {
 				unlink($path_name);
 			}
 		}
@@ -222,7 +225,7 @@ class ConvertImagesWebp extends SplendidSpeed
 	 */
 	public function ajaxConvert()
 	{
-		if(!class_exists('Imagick')) {
+		if(!class_exists('Imagick') && !extension_loaded('gd')) {
 			wp_send_json_success(['error' => 'Can\'t convert images. Contact your webmaster about lacking Imagick.']);
 		}
 
@@ -406,6 +409,10 @@ class ConvertImagesWebp extends SplendidSpeed
 			} catch(\ImagickException $e) {
 				// Something went wrong.
 			}
+		} elseif(extension_loaded('gd')) {
+			$image = imagecreatefromjpeg($path_name);
+			imagewebp($image, $path . '/' . $base_name . '_ss.webp');
+			imagedestroy($image);
 		}
 	}
 
@@ -432,6 +439,13 @@ class ConvertImagesWebp extends SplendidSpeed
 			} catch(\ImagickException $e) {
 				// Something went wrong.
 			}
+		} elseif(extension_loaded('gd')) {
+			$image = imagecreatefrompng($path_name);
+			imagepalettetotruecolor($image);
+			imagealphablending($image, true);
+			imagesavealpha($image, true);
+			imagewebp($image, $path . '/' . $base_name . '_ss.webp');
+			imagedestroy($image);
 		}
 	}
 }
