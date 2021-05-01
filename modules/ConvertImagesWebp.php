@@ -91,7 +91,7 @@ class ConvertImagesWebp extends SplendidSpeed
 		// Add JS to admin.
 		add_action('admin_enqueue_scripts', function($hook) {
 			if($hook === 'settings_page_splendid-speed') {
-		   		$convert_images_js = SPLENDID_SPEED_DIR_URL . 'assets/js/admin-convert-images-webp.js';
+				$convert_images_js = SPLENDID_SPEED_DIR_URL . 'assets/js/admin-convert-images-webp.js';
 				wp_enqueue_script('admin-convert-images-webp', $convert_images_js, ['wp-util'], '1.0', true);
 			}
 		});
@@ -130,7 +130,7 @@ class ConvertImagesWebp extends SplendidSpeed
 			$path_name = $file->getPathname();
 			$ext = $file->getExtension();
 
-			if($ext === 'webp') {
+			if(preg_match('/_ss.webp/', $path_name) && $ext === 'webp') {
 				unlink($path_name);
 			}
 		}
@@ -157,9 +157,9 @@ class ConvertImagesWebp extends SplendidSpeed
 		if(!empty($matches[0]) && is_array($matches[0])) {
 			foreach($matches[0] as $match) {
 				$file = substr($match, strpos($match, 'uploads/') + 8);
-				$file_webp = str_replace('.jpg', '.webp', $file);
-				$file_webp = str_replace('.jpeg', '.webp', $file_webp);
-				$file_webp = str_replace('.png', '.webp', $file_webp);
+				$file_webp = str_replace('.jpg', '_ss.webp', $file);
+				$file_webp = str_replace('.jpeg', '_ss.webp', $file_webp);
+				$file_webp = str_replace('.png', '_ss.webp', $file_webp);
 				
 				if(file_exists(wp_upload_dir()['basedir'] . '/' . $file_webp)) {
 					$content = str_replace($file, $file_webp, $content);
@@ -187,9 +187,9 @@ class ConvertImagesWebp extends SplendidSpeed
 		if(!empty($image) && !empty($image[0])) {
 			$src = $image[0];
 			$file = substr($src, strpos($src, 'uploads/') + 8);
-			$newsrc = str_replace('.jpg', '.webp', $src);
-			$newsrc = str_replace('.jpeg', '.webp', $newsrc);
-			$newsrc = str_replace('.png', '.webp', $newsrc);
+			$newsrc = str_replace('.jpg', '_ss.webp', $src);
+			$newsrc = str_replace('.jpeg', '_ss.webp', $newsrc);
+			$newsrc = str_replace('.png', '_ss.webp', $newsrc);
 			$webp_file = substr($newsrc, strpos($newsrc, 'uploads/') + 8);
 			$webp_file_path = wp_upload_dir()['basedir'] . '/' . $webp_file;
 
@@ -279,11 +279,23 @@ class ConvertImagesWebp extends SplendidSpeed
 				$images++;
 			}
 
+			if($ext === 'jpeg' && file_exists($path . '/' . $file->getBasename('.jpeg') . '_ss.webp')) {
+				$images++;
+			}
+
 			if($ext === 'jpg' && file_exists($path . '/' . $file->getBasename('.jpg') . '.webp')) {
 				$images++;
 			}
 
+			if($ext === 'jpg' && file_exists($path . '/' . $file->getBasename('.jpg') . '_ss.webp')) {
+				$images++;
+			}
+
 			if($ext === 'png' && file_exists($path . '/' . $file->getBasename('.png') . '.webp')) {
+				$images++;
+			}
+
+			if($ext === 'png' && file_exists($path . '/' . $file->getBasename('.png') . '_ss.webp')) {
 				$images++;
 			}
 
@@ -340,19 +352,19 @@ class ConvertImagesWebp extends SplendidSpeed
 
 			if($converted < $limit) {
 				// Convert JPEGs
-				if($ext === 'jpeg' && !file_exists($path . '/' . $file->getBasename('.jpeg') . '.webp')) {
+				if($ext === 'jpeg' && !file_exists($path . '/' . $file->getBasename('.jpeg') . '_ss.webp')) {
 					$this->convertJPEG($path, $path_name, $file->getBasename('.jpeg'));
 					$converted++;
 				}
 
 				// Convert JPGs
-				if($ext === 'jpg' && !file_exists($path . '/' . $file->getBasename('.jpg') . '.webp')) {
+				if($ext === 'jpg' && !file_exists($path . '/' . $file->getBasename('.jpg') . '_ss.webp')) {
 					$this->convertJPEG($path, $path_name, $file->getBasename('.jpg'));
 					$converted++;
 				}
 
 				// Convert PNGs
-				if($ext === 'png' && !file_exists($path . '/' . $file->getBasename('.png') . '.webp')) {
+				if($ext === 'png' && !file_exists($path . '/' . $file->getBasename('.png') . '_ss.webp')) {
 					$this->convertPNG($path, $path_name, $file->getBasename('.png'));
 					$converted++;
 				}
@@ -378,7 +390,7 @@ class ConvertImagesWebp extends SplendidSpeed
 				$image->readImage( $path_name );
 				$image->setImageFormat( 'webp' );
 				$image->setImageCompressionQuality( 80 );
-				$image->writeImage( $path . '/' . $base_name . '.webp' );
+				$image->writeImage( $path . '/' . $base_name . '_ss.webp' );
 			} catch(\ImagickException $e) {
 				// Something went wrong.
 			}
@@ -404,7 +416,7 @@ class ConvertImagesWebp extends SplendidSpeed
 				$image->setImageFormat('webp');
 				$image->setImageCompressionQuality(80);
 				$image->setOption('webp:lossless', 'true');
-				$image->writeImage($path . '/' . $base_name . '.webp');
+				$image->writeImage($path . '/' . $base_name . '_ss.webp');
 			} catch(\ImagickException $e) {
 				// Something went wrong.
 			}
